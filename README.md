@@ -93,14 +93,13 @@ Check status
 ~/nifi/bin/nifi.sh status
 ```
 
-Stop
+Stop (FYI only don't execute at the moment)
 ```bash
 ~/nifi/bin/nifi.sh stop
 ```
 
 On local machine open web browser and navigate to:  
 127.0.0.1:8080/nifi
-http://localhost:8080/nifi
 
 ## Listen for data
 
@@ -152,5 +151,42 @@ http://nifi.apache.org/docs/nifi-docs/html/user-guide.html#Manage_Templates
 
 ## Save data to S3 as CSV
 
+
+
 ## Save data to Postres DB
+
+Amazon AWS - S3
+
+Create bucket:  
+e.g.  
+20160528nifiout
+
+Bucket Properties > Permissions > Edit Bucket Policy  
+Use the following permission to make all items in your bucket public.  
+Replace 20160528nifiout with the name of your bucket.  
+
+```code
+{
+	"Statement": [
+		{
+			"Sid": "AllowPublicRead",
+			"Effect": "Allow",
+			"Principal": {
+				"AWS": "*"
+			},
+			"Action": "s3:GetObject",
+			"Resource": "arn:aws:s3:::20160528nifiout/*"
+		}
+	]
+}
+```
+
+Upload data_for_import_01.csv to bucket
+
+View properties:  
+Link e.g  
+https://s3-us-west-2.amazonaws.com/20160528nifiout/data_for_import_01.csv
+
+Test out link in web browser to make sure upload successful and permissions are public
+
 
