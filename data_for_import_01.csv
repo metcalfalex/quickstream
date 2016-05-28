@@ -1,0 +1,5 @@
+col1_int,col2_varchar,col3_date
+1,The,2015-01-05
+2,quick,2015-02-20
+3,brown,2016-12-01
+4,fox.,2015-12-13
