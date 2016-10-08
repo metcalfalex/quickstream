@@ -31,7 +31,7 @@ But otherwise the choices were arbitrary.
 
 The UDP (8080) port allows us to access the nifi web application from a local web browser.
 
-#### If windows and planning to connect through putty
+#### If windows and planning to connect through tunnel
 
 Save key file e.g. aws_01.pem to c:\users\username\.ssh\  
 Open PuTTY Key Generator  
@@ -54,6 +54,27 @@ Destination: 127.0.0.1:8080
 (This allows us to connect to nifi, once running, through a local web browser)
 
 Save profile (for convenience) and connect
+
+#### If mac and planning to connect through tunnel
+
+
+http://apple.stackexchange.com/questions/16976/whats-a-good-ssh-tunneling-client-for-os-x
+
+```bash
+ssh -D 8080 -C -N ec2-user@ec2-54-214-192-xxx.us-west-2.compute.amazonaws.com -i "eyc3_alex1.pem"
+```
+
+Now, let’s start browsing the web using with your new SSH Tunnel (Chrome):  
+
+Open Google Chrome  
+Select ‘Chrome’ up the top left  
+Select ‘Preferences’  
+Select ‘Show advanced settings…’  
+Select ‘Change proxy settings…’  
+Select ‘SOCKS Proxy’  
+Enter ’127.0.0.1′  
+Enter port ’8080′  
+Save changes by selecting ‘OK’  
 
 ## Install NIFI
 
