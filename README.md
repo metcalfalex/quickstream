@@ -283,14 +283,14 @@ else default
 #### Notes
 
 Need to manually create table for data to be inserted into:  
-'''sql
+```sql
 CREATE TABLE dbname01.public.abc (
 
 pubDate VARCHAR(50)
 ,title VARCHAR(200)
 
 );
-'''
+```
 
 
 
