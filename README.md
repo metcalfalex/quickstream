@@ -174,11 +174,11 @@ http://nifi.apache.org/docs/nifi-docs/html/user-guide.html#Manage_Templates
 
 ### GetHTTP
 
-PURPOSE
+#### Purpose
 
 Imports file/data via a HTTP request into the flowfile's content. In this example we're getting an XML file.
 
-PROPERTIES (LISTED)
+#### Properties (listed)
 
 url: http://www.abc.net.au/news/feed/51892/rss.xml  
 
@@ -188,16 +188,16 @@ else: default
 
 ### EvaluateXPath
 
-PURPOSE
+#### Purpose
 
 Parse XML document for specific tags/attributes.
 
-PROPERTIES (LISTED)
+#### Properties (listed)
 
 Destination: flowfile-attribute  
 (parse into attributes - as opposed to parsing into the content of the flowfile)
 
-PROPERTIES (MANUAL)
+#### Properties (additional)
 
 description: /rss/channel/item/description
 
@@ -205,7 +205,7 @@ pubDate: /rss/channel/item/pubDate
 
 (etc...)
 
-NOTES
+#### Notes
 
 Xpath resource  
 http://www.w3schools.com/xsl/xpath_intro.asp
@@ -214,11 +214,11 @@ Needs fixing: Current setup only grabs attributes of first item, need to work ou
 
 ### AttributeToJSON
 
-PURPOSE
+#### Purpose
 
 Get data into JSON format - easy to then convert to SQL for inserting into a database.
 
-PROPERTIES (LISTED)
+#### Properties (listed)
 
 Attributes List: pubDate, description
 
@@ -230,11 +230,11 @@ else default
 
 ### ConvertJSONToSQL
 
-PURPOSE
+#### Purpose
 
 Generate a SQL statement (based on our JSON data) to be passed to a PutSQL call. 
 
-PROPERTIES (LISTED)
+#### Properties (listed)
 
 Statement Type: INSERT
 (Needs fixing: This should be an UPDATE call instead - need to get keys right during create table step...)
@@ -270,17 +270,17 @@ Password: masterpass
 
 ### PutSQL
 
-PURPOSE
+#### Purpose
 
 Push generated SQL to server
 
-PROPERTIES (LISTED)
+#### Properties (listed)
 
 JDBC Connection Pool: (DBCPConnectionPool set up above)
 
 else default
 
-NOTES
+#### Notes
 
 Need to manually create table for data to be inserted into:  
 '''sql
