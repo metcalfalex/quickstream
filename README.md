@@ -172,5 +172,130 @@ http://nifi.apache.org/docs/nifi-docs/html/user-guide.html#Manage_Templates
 
 ## Save data to Postres DB
 
-TBC...
+### GetHTTP
+
+PURPOSE
+
+Imports file/data via a HTTP request into the flowfile's content. In this example we're getting an XML file.
+
+PROPERTIES (LISTED)
+
+url: http://www.abc.net.au/news/feed/51892/rss.xml  
+
+filename: raw_rss_abc  
+
+else: default
+
+### EvaluateXPath
+
+PURPOSE
+
+Parse XML document for specific tags/attributes.
+
+PROPERTIES (LISTED)
+
+Destination: flowfile-attribute  
+(parse into attributes - as opposed to parsing into the content of the flowfile)
+
+PROPERTIES (MANUAL)
+
+description: /rss/channel/item/description
+
+pubDate: /rss/channel/item/pubDate
+
+(etc...)
+
+NOTES
+
+Xpath resource  
+http://www.w3schools.com/xsl/xpath_intro.asp
+
+Needs fixing: Current setup only grabs attributes of first item, need to work out how to iterate through all items...
+
+### AttributeToJSON
+
+PURPOSE
+
+Get data into JSON format - easy to then convert to SQL for inserting into a database.
+
+PROPERTIES (LISTED)
+
+Attributes List: pubDate, description
+
+Destination: flowfile-content
+
+(We are now ready to move the parsed data from attributes to the content of the flowfile)
+
+else default
+
+### ConvertJSONToSQL
+
+PURPOSE
+
+Generate a SQL statement (based on our JSON data) to be passed to a PutSQL call. 
+
+PROPERTIES (LISTED)
+
+Statement Type: INSERT
+(Needs fixing: This should be an UPDATE call instead - need to get keys right during create table step...)
+
+Table Name: abc
+
+Schema Name: public
+
+JDBC Connection Pool:
+
+Click arrow > NiFi Flow Settings > Controller Services
+
+New Controller service > DBCPConnectionPool
+
+Database Connection URL: jdbc:postgresql://instanceid01.cxyhnytsfsmi.us-west-2.rds.amazonaws.com:5432/dbname01
+
+Database Driver Class Name: org.postgresql.Driver
+
+Database Driver Jar Url: file:///home/ec2-user/pgres/postgresql-9.4.1211.jre6.jar
+
+(Need to download this file: 
+'''bash
+cd /home/ec2-user/pgres  
+wget https://jdbc.postgresql.org/download/postgresql-9.4.1211.jre6.jar
+'''
+)
+
+Database User: masteru
+
+Password: masterpass
+
+(Refer to https://github.com/metcalfalex/quickpostgresdb)
+
+### PutSQL
+
+PURPOSE
+
+Push generated SQL to server
+
+PROPERTIES (LISTED)
+
+JDBC Connection Pool: (DBCPConnectionPool set up above)
+
+else default
+
+NOTES
+
+Need to manually create table for data to be inserted into:  
+'''sql
+CREATE TABLE dbname01.public.abc (
+
+pubDate VARCHAR(50)
+,title VARCHAR(200)
+
+);
+'''
+
+
+
+
+
+
+
 
